@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>Lets see...</title>
+    </head>
+    <body>
+        BOOKS ISSUED : 
+        <table>
+            <%
+                data.forEach(function(item) {
+            %>    
+           <tr>
+               <td><%=item.title%></td>
+           </tr>
+           <% }) %>
+        </table>
+        <br><br>
+        ACCESS BOOK : 
+        <form action="/allbooks" method="POST">
+            Name:<input type="text" name="bookname">
+            <input type="submit" value="search"/>
+        </form>
+    </body>
+</html>

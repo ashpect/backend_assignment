@@ -7,13 +7,33 @@
     <title>Document</title>
 </head>
 <body>
+    USER LOGIN
     <form action="/login" method="POST">
         username:<input type="text" name="username">
         <br>
         password: <input type="text" name="password">
         <br>
         <input type="submit" value="login"/>
-        <input type="button" onclick="location.href='/register';" value="register" />
+        <input type="button" onclick="location.href='/user_register';" value="register" />
     </form>
+    <br><br>
+    ADMIN LOGIN
+    <form action="/ad_login" method="POST">
+        username:<input type="text" name="ad_username">
+        <br>
+        password: <input type="text" name="ad_password">
+        <br>
+        <input type="submit" value="login"/>
+    </form>
+    <br><br>
+    TESTING BOOKTEST
+    <form action="/booktest" method="POST">
+        username:<input type="text" name="ad_username">
+        <br>
+        password: <input type="text" name="ad_password">
+        <br>
+        <input type="submit" value="login"/>
+    </form>
+
 </body>
 </html>

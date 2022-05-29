@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>Seeing all books...</title>
+    </head>
+    <body>
+        ALL BOOKS: 
+        <table>
+            <%
+                data.forEach(function(item) {
+            %>    
+           <tr>
+               <td><%=item.title%></td>
+           </tr>
+           <% }) %>
+        </table>
+        <br><br>
+        Which book would you want to issue ? 
+
+        DECIDE BOOK:
+        <form action="/bookissue" method="POST">
+            <input type="text" name="username" value='<%= user_name %>' style="display:none;">
+            Name:<input type="text" name="bookname">
+            <input type="submit" value="Issue"/>
+        </form>
+        
+    </body>
+</html>
+
