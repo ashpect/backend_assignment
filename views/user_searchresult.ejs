@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>Lets see...</title>
+    </head>
+    <body>
+        ACCESS BOOKS : 
+        <form action="/searchbooks" method="POST">
+            <label>Name:<input type="text" name="bookname"></label>
+            <label><input type="submit" value="search"/></label>
+        </form>
+        Dear Ashish, According to the search result , books available to you are :
+        <table>
+            <%
+                availbooks.forEach(function(item) {
+            %>    
+           <tr>
+               <td><%=item.title%></td>
+           </tr>
+           <% }) %>
+        </table>
+        <br>
+        OR
+        <form action="/allbooks" method="POST">
+            <input type = "submit" value = "BROWSE ALL BOOKS.."/>
+        </form>
+        <br><br>
+        REQUEST BOOKS :
+        <form action="/issuebook" method="POST">
+            <label>Name of book you'd like to issue :<input type="text" name="bookname"></label>
+            <label><input type="submit" value="search"/></label>
+        </form>
+    </body>
+</html>

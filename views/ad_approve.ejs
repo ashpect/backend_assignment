@@ -1,0 +1,26 @@
+HELLO...APPROVE STUFF
+<br><br>
+ALL CHECKOUT-REQ : 
+    <table>
+        <%
+            data.forEach(function(item) {
+        %>    
+       <tr>
+           <td><%=item.id%><%=item.title%><%=item.user_id%></td>
+       </tr>
+       <% }) %>
+    </table>
+    <br><br>
+    Which request would you like to approve ?
+    <form action="/approverequests" method="POST">
+        Request ID :<input type="number" name="reqid">
+        <br>
+        <input type="submit" value="APPROVE"/>
+    </form>
+    <br><br>
+    Which request would you like to deny ?
+    <form action="/denyrequests" method="POST">
+        Request ID :<input type="number" name="reqid">
+        <br>
+        <input type="submit" value="DENY"/>
+    </form>

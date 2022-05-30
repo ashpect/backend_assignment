@@ -1,0 +1,31 @@
+HELLO..WELCOME ADMIN.
+<br><br>
+List of all books :
+<table>
+    <%
+        booklist.forEach(function(item) {
+    %>    
+   <tr>
+       <td><%=item.title%></td>
+   </tr>
+   <% }) %>
+</table>
+<br>
+ADD BOOKS :
+<form action="/addbooks" method="POST">
+    <label>Name of book you'd like to add :<input type="text" name="title"></label><br>
+    <label>Author of book you'd like to add :<input type="text" name="author"></label><br>
+    <label><input type="submit" value="Add Book"/></label>
+</form>
+
+REMOVE BOOKS :
+<form action="/removebooks" method="POST">
+    <label>Name of book you'd like to remove :<input type="text" name="title"></label>
+    <label><input type="submit" value="Remove Book"/></label>
+</form>
+
+See cheout/checkin requests :
+<form action="/requests" method="POST">
+    <!-- <label>Name of book you'd like to remove :<input type="text" name="bookname"></label> -->
+    <label><input type="submit" value="SEE REQUESTS"/></label>
+</form>

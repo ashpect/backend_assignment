@@ -6,7 +6,7 @@
         BOOKS ISSUED : 
         <table>
             <%
-                data.forEach(function(item) {
+                bookissued.forEach(function(item) {
             %>    
            <tr>
                <td><%=item.title%></td>
@@ -14,10 +14,26 @@
            <% }) %>
         </table>
         <br><br>
-        ACCESS BOOK : 
+        BOOKS PENDING :
+        <table>
+            <%
+                bookpending.forEach(function(item) {
+            %>    
+           <tr>
+               <td><%=item.title%></td>
+           </tr>
+           <% }) %>
+        </table>
+        <br><br>
+        <!-- ACCESS BOOKS : 
+        <form action="/searchbooks" method="POST">
+            <label>Name:<input type="text" name="bookname"></label>
+            <label><input type="submit" value="search"/></label>
+        </form> -->
+        <br>
+        OR
         <form action="/allbooks" method="POST">
-            Name:<input type="text" name="bookname">
-            <input type="submit" value="search"/>
+            <input type = "submit" value = "BROWSE ALL BOOKS.."/>
         </form>
     </body>
 </html>

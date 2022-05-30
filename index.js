@@ -43,66 +43,104 @@ router.post('/login', (req, res) => {
         (error, result, fields) => {
             let crypto = require('crypto');
             const hash = crypto.createHash('sha256').update(req.body.password).digest('base64');
-            user_name = req.body.name;
-            let name = req.body.username;
+            console.log(result);
+            user_name = req.body.username;
             if (error) {
-                return res.redirect('notUser');
+                return res.send("YOU ARE NOT A USER");
             }
             else {
+                if ( !result[0]  )
+                {
+                    return res.send("YOU ARE NOT A USER");
+                }
+                if ( result[0].password != hash  )
+                {
+                    return res.send("INCORRECT PASSWORD");
+                }
                 if (result != undefined && result[0].password === hash) {
                     // session=req.session;
                     // session.userid=req.body.username;
                     // console.log(req.session)
-                    db.query('select chekouts.*, books.* from chekouts inner join books on chekouts.book_id = books.id where user_id = "'+ req.body.username +'";',
+                    db.query('select chekouts.*, books.* from chekouts inner join books on chekouts.book_id = books.id where user_id = "'+ req.body.username +'"and admin_id is not null;',
                         (error1, result1, fields) => {
                             if (error1) {
                                 console.log(error1);
-                                //return res.redi1rect('notUser');
+                                return res.send("YOU ARE NOT A USER");
                             }
                             console.log("OK");
-                            console.log(result1);
-                            console.log(result1[0].book_id);
+                            //PRINTING WILL GIVE ERROR IF UNDEFINED/EMPTY SET;
+                            //console.log(result1);
+                            //console.log(result1[0].book_id);
                             
+                            db.query('select chekouts.*, books.* from chekouts inner join books on chekouts.book_id = books.id where user_id = "'+ req.body.username +'"and admin_id is null;',
+                            (error2, result2, fields) => {
+                                if (error2) {
+                                    console.log(error2);
+                                    return res.send("YOU ARE NOT A USER");
+                                }
                             //NOW GETTING BOOKS BY BOOK ID
-                            return res.render(`user_homepage`,{data : result1 , username : req.body.username});  
+                            return res.render(`user_homepage`,{bookissued : result1 , username : req.body.username , bookpending : result2}); 
+                            }); 
                         });
-                    // return res.render(`books`); 
                 }
                 else {
+                    return res.send("YOU ARE NOT A USER");
+                }
+            }
+        });
+});
+
+var globaladmin_id;
+//ADMIN-LOGIN
+router.post('/adminlogin', (req, res) => {
+    db.query('select * from admin where username = "' + req.body.username + '";',
+        (error, result, fields) => {
+            let crypto = require('crypto');
+            const hash = crypto.createHash('sha256').update(req.body.password).digest('base64');
+            user_name = req.body.username;
+            console.log(req.body.username);
+            console.log(req.body.password);
+            console.log(result);
+            // if( !result[0] )
+            // {
+            //     console.log("ERRROR hai..");
+            //     return res.send("HOLLLAAA");
+            // }
+            //console.log(result[0].username);
+            if (error) {
+                console.log(error);
+                return res.send("ERROR IN CODE..SADGE ");
+            }
+            else {
+                if ( !result[0]  )
+                {
+                    return res.send("YOU ARE NOT AN ADMIN");
+                }
+                if ( result[0].password != hash  )
+                {
+                    return res.send("INCORRECT PASSWORD");
+                }
+                console.log("okk");
+                if (result != undefined && result[0].password === hash)
+                {
+                    db.query('select * from books;',
+                        (error1, result1, fields) => {
+                        if (error1) 
+                        {
+                            console.log(error1);
+                        }
+                        return res.render(`ad_homepage`,{adminid : result[0].id, booklist:result1});    
+                    });
+                }
+                else 
+                {
                     return res.render('notUser');
                 }
             }
         });
 });
 
-//ADMIN-LOGIN
-router.post('/ad_login', (req, res) => {
-    db.query('select * from admin where username =' + db.escape(req.body.username) + ';',
-        (error, result, fields) => {
-            let crypto = require('crypto');
-            const hash = crypto.createHash('sha256').update(req.body.password).digest('base64');
-            console.log("check1");
-            console.log(result);
-            console.log("check2");
-            console.log(result[0].password);
-            console.log("check3");
-            console.log(hash);
-            console.log("check4");
-            let name = req.body.uname;
-            if (error) {
-                return res.redirect('notUser');
-            }
-            else {
-                if (result != undefined && result[0].password === hash) {
-                    return res.render(`ad_homepage`,{data : name});
-                    //return res.render('user',{ data : name });
-                }
-                else {
-                    return res.render('notUser');
-                }
-            }
-        });
-});
+
 
 //REGISTER
 router.post('/user_register', (req, res) => {
@@ -136,83 +174,158 @@ router.get('/register', (req, res) => {
     res.render(`register`);
 });
 
-//ACCESSING ALL_BOOKS
-router.post('/allbooks', (req, res) => {
-    db.query('select title from books;',
+//ALL_BOOKS
+router.post('/allbooks',(req, res) => {
+    db.query('select * from books;',
     (error, result, fields) => {
-        return res.render(`allbooks`, {data : result , user_name : user_name});
+        if (error) {
+            console.log(error);
+        }
+        return res.render(`user_allbooks`,{booklist : result , user_name : user_name})
+    }
+    )
+})
+
+//SEARCH_BOOKS
+router.post('/searchbooks', (req, res) => {
+    db.query('select * from books where title = "'+req.body.bookname+'" ;',
+    (error, result, fields) => {
+        if (error) {
+            console.log(error);
+        }
+        console.log("RUNNIN");
+        return res.render(`user_searchresult`, {availbooks : result , user_name : user_name});
     });
 
 });
 
 //ISSUE_BOOK
-router.post('/bookissue',(req, res) => {
-    let user_name = req.body.username;
+router.post('/issuebook',(req, res) => {
     console.log("WTFFFFF");
-    db.query('select '+req.body.bookname+' from books;',
+    db.query('select * from books where title = "'+req.body.bookname+'";',
     (error,result,fields) => {
+        console.log(result);
+        console.log(user_name);
+        var bookid = result[0].id;
         if(result != undefined){
-            db.query('insert into chekouts(user_id,book_id,checkout_time) value("' + user_name + '",' + req.body.bookname + ',current_timestamp);',
+            db.query('insert into chekouts(user_id,book_id,checkout_time) value( "' + user_name + '",' + bookid + ',current_timestamp);',
             (error, result3, fields) => {
                 console.log("HOLA AMIGOS");
                 console.log(result3);
                 console.log("KOI NAHI..")
+                return res.render(`user_completed`)
             });
+        }
+        else{
+            console.log("BOOK NAHI HAI..");
+            return res.send("CHOOSE A VALID BOOK.!!");
         }
     })
 })
 
-//AFTER LOGGING IN
-var bookid;
-router.post('/booktest', (req, res) => {
-    //db.query('select * from user where username =' + db.escape(req.body.username) + ';',)
-    //db.query("select user.username, chekouts.book_id from user join chekouts on user.username = chekouts.user_id;",
-    //select user.username, chekouts.book_id from user join chekouts on user.username = chekouts.user_id;
-    db.query('select book_id from chekouts where user_id = "Ashish";',
-        (error, result, fields) => {
-            //console.log(result[0].book_id);
-            // console.log(result[0].book_id);
-            console.log("HOLA");
-            var bookid = result[0].book_id;
-            //bookid = 1;
-            if (error) {
-                return res.redirect('books');
-            }
-            else {
-                db.query('select * from chekouts where book_id = "Ashish";',
-                (error, result, fields) => {
-                    
-                });
+//ADMIN_SIDE INTERFACE---------
 
-                if (result[0].book_id === NULL) {
-                    return res.render('user');
+//Add_books
+router.post('/addbooks',(req, res) => {
+    console.log("Addingbooks");
+    db.query('insert into books(title,author) values("'+req.body.title+'","'+req.body.author+'");',
+    (error,result,fields) => {
+        console.log(result);
+        if (error) {
+            console.log(error);
+        }
+        else{
+            console.log("BOOK ADDED");
+            db.query('select * from books;',
+            (error, result, fields) => {
+                if (error) {
+                    console.log(error);
                 }
-                else {
-                    return res.render('notUser');
+                return res.render(`ad_homepage`,{booklist : result , user_name : user_name})
+            }
+            )
+        }
+    })
+})
+//Remove_books
+router.post('/removebooks',(req, res) => {
+    console.log("Removingbooks");
+    db.query('delete from books where title = "'+req.body.title+'";',
+    (error,result,fields) => {
+        console.log(result);
+        if (error) {
+            console.log(error);
+        }
+        else{
+            console.log("BOOK REMOVED");
+            db.query('select * from books;',
+            (error, result, fields) => {
+                if (error) {
+                    console.log(error);
                 }
+                return res.render(`ad_homepage`,{booklist : result , user_name : user_name})
             }
-            return res.render('notUser');
-        });
+            )
+        }
+    })
+})
 
-});
-
-router.post('/usersbook', (req, res) => {
-    db.query('select * from chekouts where user_id = "Ashish";',
-        (error, result, fields) => {
-            console.log("HOLA");
-            var bookid = result[0].book_id;
-            if (error) {
-                return res.redirect('books');
+router.post('/requests',(req, res) => {
+    db.query('select chekouts.id,chekouts.user_id,books.title from chekouts inner join books on chekouts.book_id = books.id where admin_id is null;',
+        (error,result,fields) => {
+            if(error){
+                console.log(error);
             }
-            else {
-                db.query('select * from chekouts where book_id = "Ashish";',
-                (error, result, fields) => {
-                    
+            else{
+                return res.render(`ad_approve`,{data : result});
+            }
+        }
+    
+    )
+})
 
-                    return res.render('notUser');
+//APPROVE REQUESTS
+router.post('/approverequests',(req, res) => {
+    db.query('update chekouts set admin_id = 1 where id = '+req.body.reqid+' ;',
+        (error,result,fields) => {
+            if(error){
+                console.log(error);
+            }
+            else{
+                console.log("REQUEST APPROVED")
+                db.query('select chekouts.id,chekouts.user_id,books.title from chekouts inner join books on chekouts.book_id = books.id where admin_id is null;',
+                (error,result1,fields) => {
+                    if(error){
+                        console.log(error);
+                    }
+                    else{
+                        return res.render(`ad_approve`,{ data : result1 })
+                
+                    }
                 });
             }
-            
         });
+})
 
+//DENY REQUESTS
+router.post('/denyrequests',(req, res) => {
+    console.log(req.body.reqid);
+    db.query('delete from chekouts where id = '+req.body.reqid+' ;',
+        (error,result,fields) => {
+            if(error){
+                console.log(error);
+            }
+            else{
+                console.log("REQUEST DENIED")
+                db.query('select chekouts.id,chekouts.user_id,books.title from chekouts inner join books on chekouts.book_id = books.id where admin_id is null;',
+                (error,result1,fields) => {
+                    if(error){
+                        console.log(error);
+                    }
+                    else{
+                        return res.render(`ad_approve`,{ data : result1 })
+                    }
+                });
+            }
+        });
 });
