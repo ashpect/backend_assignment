@@ -1,6 +1,6 @@
 DATABASE STRUCTURE :
 
-MAIN DATABASE : dbtest1
+1.MAIN DATABASE : dbtest1
 +-------------------+
 | Tables_in_dbtest1 |
 +-------------------+
@@ -10,7 +10,7 @@ MAIN DATABASE : dbtest1
 | user              |
 +-------------------+
 
-mysql> desc admin;
+2.mysql> desc admin;
 | Field    | Type            | Null | Key | Default | Extra          |
 +----------+-----------------+------+-----+---------+----------------+
 | id       | bigint unsigned | NO   | UNI | NULL    | auto_increment |
@@ -18,7 +18,7 @@ mysql> desc admin;
 | password | varchar(256)    | NO   |     | NULL    |                |
 +----------+-----------------+------+-----+---------+----------------+
 
-mysql> desc books;
+3.mysql> desc books;
 Field         | Type            | Null | Key | Default | Extra          |
 +---------------+-----------------+------+-----+---------+----------------+
 | id            | bigint unsigned | NO   | PRI | NULL    | auto_increment |
@@ -28,7 +28,7 @@ Field         | Type            | Null | Key | Default | Extra          |
 | publisher     | varchar(50)     | YES  |     | NULL    |                |
 | numberofbooks | bigint unsigned | NO   |     | 0       |   
 
-mysql> desc chekouts;
+4.mysql> desc chekouts;
 +---------------+-----------------+------+-----+---------+----------------+
 | Field         | Type            | Null | Key | Default | Extra          |
 +---------------+-----------------+------+-----+---------+----------------+
@@ -40,7 +40,7 @@ mysql> desc chekouts;
 | admin_id      | bigint unsigned | YES  |     | NULL    |                |
 +---------------+-----------------+------+-----+---------+----------------+
 
-mysql> desc user;
+5.mysql> desc user;
 +-------------+-----------------+------+-----+---------+-------+
 | Field       | Type            | Null | Key | Default | Extra |
 +-------------+-----------------+------+-----+---------+-------+
