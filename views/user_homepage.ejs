@@ -3,18 +3,45 @@
         <title>Lets see...</title>
     </head>
     <body>
-        BOOKS ISSUED : 
+        <div class = "navbar">
+            NAV_BAR
+            <form action="/allbooks" method="POST">
+                <input type = "submit" value = "BROWSE ALL BOOKS.."/>
+            </form>
+            <form action="/logout" method="GET" style="display: inline-block;">
+                <input type="button" onclick="location.href='/logout';" value="Logout"/>
+            </form>
+            <form action="/login" method="GET" style="display: inline-block;">
+                <input type="button" onclick="location.href='/login';" value="HOME"/>
+            </form>
+        </div>
+        <br><br>
+        BOOKS CURRENTLY ISSUED : 
         <table>
             <%
                 bookissued.forEach(function(item) {
             %>    
            <tr>
-               <td><%=item.title%></td>
+                <td>
+                <form action="/returnbook" method="POST">
+                <%=item.book_id%><%=item.title%><%=item.user_id%><br>
+                <input type="text" name="reqid" value= '<%= item.book_id %>' style="display:none;">
+                <input type="text" name="userkiid" value= '<%= item.user_id %>' style="display:none;">
+                <input type="submit" value="ReturnBook">
+                </form>
+                </td>
            </tr>
+           <!-- <form action="/approverequests" method="POST">
+            <%=item.id%><%=item.title%><%=item.user_id%><br>
+            <input type="text" name="reqid" value= '<%= item.id %>' style="display:none;">
+            <input type="text" name="title" value= '<%= item.title %>' style="display:none;">
+            <input type="submit" value="approve">
+            </form> -->
+
            <% }) %>
         </table>
         <br><br>
-        BOOKS PENDING :
+        BOOKS PENDING FOR APPROVAL :
         <table>
             <%
                 bookpending.forEach(function(item) {
@@ -24,16 +51,6 @@
            </tr>
            <% }) %>
         </table>
-        <br><br>
-        <!-- ACCESS BOOKS : 
-        <form action="/searchbooks" method="POST">
-            <label>Name:<input type="text" name="bookname"></label>
-            <label><input type="submit" value="search"/></label>
-        </form> -->
         <br>
-        OR
-        <form action="/allbooks" method="POST">
-            <input type = "submit" value = "BROWSE ALL BOOKS.."/>
-        </form>
     </body>
 </html>

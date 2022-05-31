@@ -3,32 +3,36 @@
         <title>Lets see...</title>
     </head>
     <body>
-        ACCESS BOOKS : 
-        <form action="/searchbooks" method="POST">
-            <label>Name:<input type="text" name="bookname"></label>
-            <label><input type="submit" value="search"/></label>
-        </form>
-        <br>
-        OR
+        <div class = "navbar">
+        NAV_BAR
         <form action="/allbooks" method="POST">
             <input type = "submit" value = "BROWSE ALL BOOKS.."/>
         </form>
-
+        <form action="/logout" method="GET" style="display: inline-block;">
+            <input type="button" onclick="location.href='/logout';" value="Logout"/>
+        </form>
+        <form action="/login" method="GET" style="display: inline-block;">
+            <input type="button" onclick="location.href='/login';" value="HOME"/>
+        </form>
+        </div>
+        <br><br>
         Dear Ashish, ALL the books available are :
+        <br><br>
         <table>
             <%
                 booklist.forEach(function(item) {
             %>    
            <tr>
-               <td><%=item.title%></td>
+                <td>
+                <form action="/issuebook" method="POST">
+                Title : <%=item.title%> <br>
+                Copies Remaining: <%=item.numberofbooks%><br>
+                <input type="text" name="book_naam" value= '<%= item.title %>' style="display:none;">
+                <input type="submit" value="Request To Issue Book">
+                </form>
+                </td>
            </tr>
            <% }) %>
         </table>
-        <br><br>
-        REQUEST BOOKS :
-        <form action="/issuebook" method="POST">
-            <label>Name of book you'd like to issue :<input type="text" name="bookname"></label>
-            <label><input type="submit" value="search"/></label>
-        </form>
     </body>
 </html>

@@ -5,11 +5,12 @@
     <body>
         ALL BOOKS: 
         <table>
+            <td>TITLE     AUTHOR</td>
             <%
                 data.forEach(function(item) {
             %>    
            <tr>
-               <td><%=item.title%></td>
+               <td><%=item.title%>  <&=item.author%></td>
            </tr>
            <% }) %>
         </table>
