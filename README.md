@@ -1,4 +1,5 @@
-Features :
+FEATURES :
+
 1.A client portal and an admin portal (including authentication and authorization).
 2.Admins can 
     1.list the books available in the library.
@@ -9,7 +10,7 @@ Features :
     2.request admin to check-out books.
 4.Hashed Passwords
 5.Books have multiple copies and while one user can take only one copy of the book, mutiple users can take the book untill exhausted.
---------------- 
+
 DATABASE STRUCTURE :
 
 1.MAIN DATABASE : dbtest1
