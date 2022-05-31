@@ -15,10 +15,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+let secretkey = process.env.secretkey;
 //SESSION_MANAGEMENT
 const oneDay = 1000 * 60 * 60 * 24;
 app.use(sessions({
-    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    secret: `${secretkey}`,
     saveUninitialized:true,
     cookie: { maxAge: oneDay },
     resave: false 
@@ -244,7 +245,7 @@ router.post('/allbooks',(req, res) => {
         if (error) {
             console.log(error);
         }
-        return res.render(`user_allbooks`,{booklist : result , user_name : user_name})
+        return res.render(`user_allbooks`,{booklist : result , username : session.userid})
     });
 })
 
@@ -369,7 +370,7 @@ router.post('/addbooks',isAdmin,(req, res) => {
                 if (error) {
                     console.log(error);
                 }
-                return res.render(`ad_homepage`,{booklist : result , user_name : user_name})
+                return res.render(`ad_homepage`,{booklist : result , username : session.userid})
             }
             )
         }

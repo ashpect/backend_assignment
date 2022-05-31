@@ -2,53 +2,50 @@
     <head>
         <title>Lets see...</title>
     </head>
+    Hello..<%=username%><br>
+    Welcome.
     <body>
         <div class = "navbar">
-            NAV_BAR
-            <form action="/allbooks" method="POST">
-                <input type = "submit" value = "BROWSE ALL BOOKS.."/>
-            </form>
-            <form action="/logout" method="GET" style="display: inline-block;">
-                <input type="button" onclick="location.href='/logout';" value="Logout"/>
-            </form>
-            <form action="/login" method="GET" style="display: inline-block;">
+            <table>
+            <td><form action="/login" method="GET" style="display: inline-block;">
                 <input type="button" onclick="location.href='/login';" value="HOME"/>
-            </form>
+            </form></td>
+            <td><form action="/allbooks" method="POST">
+                <input type = "submit" value = "BROWSE ALL BOOKS.."/>
+            </form></td>
+            <td><form action="/logout" method="GET" style="display: inline-block;">
+                <input type="button" onclick="location.href='/logout';" value="LOGOUT"/>
+            </form></td>
+            </table>
         </div>
-        <br><br>
-        BOOKS CURRENTLY ISSUED : 
+        Here you can see your issued books and the books pending for approval.<br><br><hr>
+        <br>
+        BOOKS CURRENTLY ISSUED : <br><br>
         <table>
             <%
                 bookissued.forEach(function(item) {
             %>    
            <tr>
-                <td>
+                Title : <%=item.title%><br>
+                Author : <%=item.user_id%><br>
                 <form action="/returnbook" method="POST">
-                <%=item.book_id%><%=item.title%><%=item.user_id%><br>
                 <input type="text" name="reqid" value= '<%= item.book_id %>' style="display:none;">
                 <input type="text" name="userkiid" value= '<%= item.user_id %>' style="display:none;">
                 <input type="submit" value="ReturnBook">
                 </form>
-                </td>
-           </tr>
-           <!-- <form action="/approverequests" method="POST">
-            <%=item.id%><%=item.title%><%=item.user_id%><br>
-            <input type="text" name="reqid" value= '<%= item.id %>' style="display:none;">
-            <input type="text" name="title" value= '<%= item.title %>' style="display:none;">
-            <input type="submit" value="approve">
-            </form> -->
-
+           </tr><br><br>
            <% }) %>
         </table>
-        <br><br>
-        BOOKS PENDING FOR APPROVAL :
+        <hr>
+        BOOKS PENDING FOR APPROVAL :<br><br>
         <table>
             <%
                 bookpending.forEach(function(item) {
             %>    
            <tr>
-               <td><%=item.title%></td>
-           </tr>
+               Title : <%=item.title%><br>
+               Author : <%=item.author%><br>
+           </tr><br>
            <% }) %>
         </table>
         <br>

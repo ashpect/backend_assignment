@@ -1,41 +1,55 @@
-HELLO...APPROVE/DENY STUFF
+HELLO...APPROVE/DENY STUFF<br>
+Here you can either approve checkout requests or deny them.
 <br><br>
 <div class = "navbar">
-    NAV_BAR
-    <br>
-    <form action="/ad_homepage" method="GET" style="display: inline-block;">
+    <table>
+    <td><form action="/ad_homepage" method="GET" style="display: inline-block;">
         <input type="button" onclick="location.href='/ad_homepage';" value="HOME"/>
-    </form>
-    <form action="/requests" method="POST">
+    </form></td>
+    <td><form action="/requests" method="POST">
         <input type = "submit" value = "SEE REQUESTS.."/>
-    </form>
-    <form action="/addremovebooks" method="POST">
-        <input type = "submit" value = "Add/Remove Books"/>
-    </form>
-    <form action="/logout" method="GET" style="display: inline-block;">
-        <input type="button" onclick="location.href='/logout';" value="Logout"/>
-    </form>
+    </form></td>
+    <td><form action="/addremovebooks" method="POST">
+        <input type = "submit" value = "ADD/REMOVE  BOOKS"/>
+    </form></td>
+    <td><form action="/logout" method="GET" style="display: inline-block;">
+        <input type="button" onclick="location.href='/logout';" value="LOGOUT"/>
+    </form></td>
+    </table>
 </div>
-<br>
+<br><br>
 ALL CHECKOUT-REQ : 
+<br><br>
     <table>
         <%
             data.forEach(function(item) {
         %>    
        <tr>
-           <td>
-                <form action="/approverequests" method="POST">
-                <%=item.id%><%=item.title%><%=item.user_id%><br>
+            <td>
+               <table>
+                <td>
+                
+                    Title : <%=item.title%><br>
+                    User : <%=item.user_id%>
+                
+                </td>
+                <table>
+                <td>
+                <form action="/approverequests" method="POST">    
+                <input type="submit" value="approve">
                 <input type="text" name="reqid" value= '<%= item.id %>' style="display:none;">
                 <input type="text" name="title" value= '<%= item.title %>' style="display:none;">
-                <input type="submit" value="approve">
-                </form>
-                <form action="/denyrequests" method="POST">
-                    <input type="text" name="reqid" value= '<%= item.id %>' style="display:none;">
-                    <input type="text" name="title" value= '<%= item.title %>' style="display:none;">
-                    <input type="submit" value="deny">
                 </form>
                 </td>
+                <td>
+                <form action="/denyrequests" method="POST">
+                    <input type="submit" value="deny">
+                    <input type="text" name="reqid" value= '<%= item.id %>' style="display:none;">
+                    <input type="text" name="title" value= '<%= item.title %>' style="display:none;">
+                </form>
+                </table>
+                </td>
+            </table>
             </td>
        </tr>
        <% }) %>

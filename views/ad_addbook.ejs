@@ -1,21 +1,22 @@
 HELLO..WELCOME ADMIN.<br>
+Here you can add/remove books.<br><br>
 <div class = "navbar">
-    NAV_BAR
-    <br>
-    <form action="/ad_login" method="GET" style="display: inline-block;">
+    <table>
+    <td><form action="/ad_homepage" method="GET" style="display: inline-block;">
         <input type="button" onclick="location.href='/ad_homepage';" value="HOME"/>
-    </form>
-    <form action="/requests" method="POST">
-        <input type = "submit" value = "See cheout/checkin requests :"/>
-    </form>
-    <form action="/addremovebooks" method="POST">
-        <input type = "submit" value = "Add/Remove Books"/>
-    </form>
-    <form action="/logout" method="GET" style="display: inline-block;">
-        <input type="button" onclick="location.href='/logout';" value="Logout"/>
-    </form>
+    </form></td>
+    <td><form action="/requests" method="POST">
+        <input type = "submit" value = "SEE REQUESTS.."/>
+    </form></td>
+    <td><form action="/addremovebooks" method="POST">
+        <input type = "submit" value = "ADD/REMOVE  BOOKS"/>
+    </form></td>
+    <td><form action="/logout" method="GET" style="display: inline-block;">
+        <input type="button" onclick="location.href='/logout';" value="LOGOUT"/>
+    </form></td>
+    </table>
 </div>
-
+<br><br>
 <section id ="addremovebooks">
     ADD BOOKS :
     <form action="/addbooks" method="POST">
@@ -35,7 +36,7 @@ HELLO..WELCOME ADMIN.<br>
     <form action="/updatebooks" method="POST">
         <label>Name of book you'd like to update :<input type="text" name="title"></label><br>
         <label>Amount of copies for the book : <input type="number" name="copies"></label><br>
-        <label><input type="submit" value="Remove Book"/></label>
+        <label><input type="submit" value="Update Copies"/></label>
     </form>
 </section>
 
