@@ -18,7 +18,9 @@ FEATURES :
 
 4.Hashed Passwords
 
-5.Books have multiple copies and while one user can take only one copy of the book, mutiple users can take the book untill exhausted.
+5.Books can have
+    1.multiple copies and while one user can take only one copy of the book, mutiple users can take the book untill exhausted.
+
 
 
 DATABASE STRUCTURE :
